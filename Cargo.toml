@@ -1,0 +1,20 @@
+[package]
+name = "reposite"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[dependencies]
+rocket = { git = "https://github.com/SergioBenitez/Rocket" }
+log = "0.4.14"
+rand = "0.8.4"
+tokio = { version = "1.12.0", features = ["full"] }
+once_cell = "1.8.0"
+sys-info = "0.9.0"
+serde = "1.0.130"
+serde_json = "1.0.68"
+json = "0.12.4"
+uuid = { version = "0.8", features = ["serde", "v4"] }
+walkdir = "2.3.2"
+reqwest = { version = "0.11", features = ["json"] }
+simple_logger = "1.13.0"

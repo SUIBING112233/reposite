@@ -1,0 +1,2 @@
+pub const ENV_REPOSITE_DIR: &str = "REPOSITE_DIR";
+pub const ENV_REPOSITE_DEBUG: &str = "REPOSITE_DEBUG";
