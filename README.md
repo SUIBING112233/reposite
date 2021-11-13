@@ -15,3 +15,4 @@ Lightweight repository manager written in Rust programming language.
 - [x] RESTful API
 - [ ] Docker
 - [ ] Cache checking
+- [ ] Maven Meta merge
