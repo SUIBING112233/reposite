@@ -6,7 +6,7 @@ license-file = "LICENSE.txt"
 homepage = "https://github.com/SUIBING112233/reposite"
 description = "Lightweight maven repository manager written in Rust programming language."
 readme = "README.md"
-documentation = "https://docs.rs/bitflags"
+documentation = "https://docs.rs/reposite"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
