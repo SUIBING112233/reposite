@@ -1,8 +1,8 @@
 [package]
 name = "reposite"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
-license-file = "LICENSE.txt"
+license = "GPL-3.0"
 homepage = "https://github.com/SUIBING112233/reposite"
 description = "Lightweight maven repository manager written in Rust programming language."
 readme = "README.md"
