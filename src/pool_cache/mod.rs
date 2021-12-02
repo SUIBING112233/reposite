@@ -7,7 +7,7 @@ use crate::{
     config::pool::PoolInfo,
     util::{
         self,
-        download_mvn_util::{self, mvn_download},
+        download_mvn_util::{self, mvn_download_from_all_sources, mvn_download_from_source},
         path_util, url_util,
     },
 };
@@ -38,43 +38,23 @@ pub async fn get(pool_info: PoolInfo, req_path: PathBuf) -> Option<PathBuf> {
 
                     return Some(p);
                 }
-                // Don't exist
+                // Don't exist. Download from sources
                 Err(_) => {
-                    for index in x {
-                        debug!(
-                            "{} {}",
-                            "target:",
-                            Paint::white(req_path.clone().to_str().unwrap()).bold()
-                        );
-                        // Try get
-                        match download_mvn_util::mvn_download(
-                            url_util::pathbuf_url_helper(
-                                index.source_url.clone(),
-                                req_path.clone(),
-                            ),
-                            p.clone(),
-                        )
-                        .await
-                        {
-                            // Succeed.
-                            Some(x) => {
-                                debug!(
-                                    "{} {}",
-                                    "succeed to get target in ",
-                                    Paint::green(index.source_url.clone()).italic()
-                                );
-                                return Some(x);
-                            }
-                            // Failed. And try next one.
-                            None => {
-                                debug!(
-                                    "{} {}",
-                                    "failed to get target in ",
-                                    Paint::green(index.source_url).bold()
-                                );
-                                continue;
-                            }
-                        };
+                    debug!(
+                        "{} {}",
+                        "cache not found:",
+                        Paint::red(req_path.clone().to_str().unwrap()).bold(),
+                    );
+                    match mvn_download_from_all_sources(x, req_path.clone()).await {
+                        Some(x) => {
+                            debug!(
+                                "{} {}",
+                                "downloaded:",
+                                Paint::blue(req_path.clone().to_str().unwrap()).bold()
+                            );
+                            Some(x)
+                        }
+                        None => None,
                     }
                 }
             };

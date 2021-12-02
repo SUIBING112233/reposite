@@ -1,9 +1,15 @@
 use std::{fs, io::ErrorKind, path::PathBuf};
 
 use reqwest::Url;
-use rocket::http::Status;
+use rocket::{http::Status, yansi::Paint};
 
-pub async fn mvn_download(download_url: Url, storage: PathBuf) -> Option<PathBuf> {
+use crate::{
+    config::pool::PoolType,
+    pool_cache::mvn_pool::Maven,
+    util::{download_mvn_util, url_util},
+};
+
+pub async fn mvn_download_from_source(download_url: Url, storage: PathBuf) -> Option<PathBuf> {
     let x = reqwest::get(download_url.clone()).await.unwrap();
     if x.status().is_success() {
         let mut dir = storage.clone();
@@ -43,4 +49,18 @@ pub async fn mvn_download(download_url: Url, storage: PathBuf) -> Option<PathBuf
     None
 }
 
-pub async fn mvn_cache() {}
+pub async fn mvn_download_from_all_sources(maven: Vec<Maven>, storage: PathBuf) -> Option<PathBuf> {
+    for index in maven {
+        let d = mvn_download_from_source(
+            url_util::pathbuf_url_helper(index.source_url, storage.clone()),
+            storage.clone(),
+        )
+        .await;
+
+        match d {
+            Some(x) => return Some(x),
+            None => continue,
+        }
+    }
+    None
+}
